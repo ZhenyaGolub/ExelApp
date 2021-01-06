@@ -1,0 +1,48 @@
+{
+  "name": "exelapp",
+  "version": "1.0.0",
+  "description": "Pure JS Exel Application",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=development webpack serve",
+    "build": "cross-env NODE_ENV=production webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZhenyaGolub/ExelApp.git"
+  },
+  "keywords": [
+    "js",
+    "node"
+  ],
+  "author": "Zhenya Holub <golubokyo@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZhenyaGolub/ExelApp/issues"
+  },
+  "homepage": "https://github.com/ZhenyaGolub/ExelApp#readme",
+  "browserslist": "> 0.25%, not dead",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^7.0.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^5.0.1",
+    "css-minimizer-webpack-plugin": "^1.1.5",
+    "eslint-loader": "^4.0.2",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^1.3.3",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.0",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1",
+    "webpack-dev-server": "^3.11.1"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1"
+  }
+}
