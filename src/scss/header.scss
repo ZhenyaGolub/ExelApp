@@ -1,0 +1,33 @@
+@import "variables";
+@import "mixins";
+
+.exel__header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: $header-height;
+  padding: 8px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e3dfc8;
+  & .input {
+    margin: 0;
+    padding: 2px;
+    color: #000;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    font-size: 18px;
+    outline: none;
+  }
+  & .input:hover {
+    border: 1px solid $border-color;
+  }
+  & .input:focus {
+    border: 2px solid rgb(87, 144, 209);
+  }
+  & .button {
+    @include button(green);
+  }
+}
