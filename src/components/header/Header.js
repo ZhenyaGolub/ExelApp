@@ -1,4 +1,7 @@
+import { $ } from "../../core/dom";
 import { ExelComponent } from "../../core/ExcelComponent";
+import { debounce } from "../../core/utils";
+import { changeTitle } from "../../redux/actions";
 
 export class Header extends ExelComponent{
     static className = 'excel__header';
@@ -6,13 +9,19 @@ export class Header extends ExelComponent{
     constructor($root, options){
         super($root, {
             name: 'Header',
+            listeners: ['input'],
             ...options
         });
     }
 
+    prepare(){
+        this.onInput = debounce(this.onInput, 300);
+    }
+
     toHTML(){
+        const title = this.store.getState().title;
         return (
-            `<input class="input" type="text" value="Новая таблица">
+            `<input class="input" type="text" value="${title}">
             <div>
                 <div class="button">
                     <span class="material-icons">
@@ -26,5 +35,10 @@ export class Header extends ExelComponent{
                 </div>
             </div>`
         );
+    }
+
+    onInput(event){
+        const $target = $(event.target);
+        this.$dispatch(changeTitle($target.text()));
     }
 }

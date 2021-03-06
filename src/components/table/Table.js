@@ -6,6 +6,9 @@ import { DOMListener } from "../../core/DOMListener";
 import { shouldResize, isCell, groupAllocation, nextSelector } from "./table.functions";
 import { TableSelection } from "./TableSelection";
 import {matrix} from '../../core/utils';
+import { applyStyle, changeCurrentStyles, changeText, tableResize } from "../../redux/actions";
+import { defaultStyles } from "../../constants";
+import { parse } from "../../core/parse";
 
 export class Table extends ExelComponent{
     static className = 'excel__table';
@@ -19,7 +22,7 @@ export class Table extends ExelComponent{
     }
 
     toHTML(){
-        return createTable(18);
+        return createTable(18, this.store.getState());
     }
 
     prepare(){
@@ -31,13 +34,33 @@ export class Table extends ExelComponent{
         const $cell = this.$root.find('[data-id="0:0"]');
         this.selection.select($cell);
         this.$emit('table:select', $cell);
-        this.$on('formula:input', (text) => this.selection.current.text(text));
+        this.$on('formula:input', (text) => {
+            this.selection.current.attr('data-value', text).text(parse(text));
+            this.updateTextInStore(text);
+        });
         this.$on('formula:keydown', () => this.selection.current.focus());
+        this.$on('toolbar:applyStyle', styles => {
+            this.selection.applyStyle(styles);
+            this.$dispatch(applyStyle({
+                value: styles,
+                ids: this.selection.selectedIds
+            }))
+        });
+    }
+
+    async resizeTable(event){
+        try{
+            const data = await resizing(event, this.$root);
+            this.$dispatch(tableResize(data));
+        } catch(e) {
+            console.warn('Resize error', e.message);
+        }
+        
     }
 
     onMousedown(event){
         if(shouldResize(event)){
-            resizing(event, this.$root);
+            this.resizeTable(event);
         } else if(isCell(event)){
             const $target = $(event.target);
             if(groupAllocation(event)){
@@ -50,6 +73,8 @@ export class Table extends ExelComponent{
             } else {
                 this.$emit('table:select', $target);
                 this.selection.select($target);
+                const styles = $target.getStyles(Object.keys(defaultStyles));
+                this.$dispatch(changeCurrentStyles(styles));
             }
         }
     }
@@ -65,7 +90,14 @@ export class Table extends ExelComponent{
         }
     }
 
+    updateTextInStore(value){
+        this.$dispatch(changeText({
+            id: this.selection.current.id(),
+            value
+        }));
+    }
+
     onInput(event){
-        this.$emit('table:input', $(event.target));
+        this.updateTextInStore($(event.target).text());
     }
 }
