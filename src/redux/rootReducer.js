@@ -1,4 +1,4 @@
-import { APPLY_STYLE, CHANGE_TEXT, CHANGE_TITLE, CURRENT_STYLES, TABLE_RESIZE } from "./types";
+import { APPLY_STYLE, CHANGE_TEXT, CHANGE_TITLE, CURRENT_STYLES, TABLE_RESIZE, UPDATE_DATE } from "./types";
 
 export const rootReducer = (state, action) => {
     let prevState;
@@ -29,6 +29,8 @@ export const rootReducer = (state, action) => {
             }
         case CHANGE_TITLE:
             return {...state, title: action.payload}
+        case UPDATE_DATE:
+            return {...state, openingDate: new Date().toJSON()}
         default: return state;
     }
 }

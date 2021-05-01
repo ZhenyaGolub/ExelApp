@@ -1,4 +1,4 @@
-import { APPLY_STYLE, CHANGE_TEXT, CHANGE_TITLE, CURRENT_STYLES, TABLE_RESIZE } from "./types"
+import { APPLY_STYLE, CHANGE_TEXT, CHANGE_TITLE, CURRENT_STYLES, TABLE_RESIZE, UPDATE_DATE } from "./types"
 
 export const tableResize = (data) => {
     return {
@@ -32,5 +32,11 @@ export const changeTitle = (title) => {
     return {
         type: CHANGE_TITLE,
         payload: title
+    }
+}
+
+export const updateDate = () => {
+    return {
+        type: UPDATE_DATE
     }
 }
