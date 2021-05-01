@@ -45,7 +45,7 @@ export class ExelComponent extends DOMListener {
         this.initDOMListeners();
     }
 
-    removeListeners(){
+    destroy(){
         this.removeDOMListeners();
         this.unsubscribers.forEach(unsub => unsub());
     }
